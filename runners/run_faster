@@ -1,0 +1,38 @@
+#! /Applications/Racket/bin/racket
+#lang racket
+
+(require "../sources/mk_faster.rkt")
+(include "../all_tests.scm")
+
+(define-namespace-anchor anc)
+(define ns (namespace-anchor->namespace anc))
+
+(define run-test
+    (lambda (fun)
+        (let ((startTime (current-inexact-milliseconds)))
+            (fun)
+            (/ (- (current-inexact-milliseconds) startTime) 1000.0))))
+
+(define read-tests
+    (lambda (port)
+        (let ((x (read port)))
+            (if (eof-object? x)
+                `()
+                (cons x (read-tests port))))))
+
+(define print-in-port
+    (lambda (port obj)
+            (display obj port)
+            (display "\n" port)))
+
+
+(define in (open-input-file "test_lists/faster_list.txt"))
+(define out (open-output-file "results/res_faster.txt" #:exists 'truncate))
+
+(define times (map run-test (map (lambda (s) (eval s ns)) (read-tests in))))
+
+(for ([t times])
+    (print-in-port out t))
+
+(close-input-port in)
+(close-output-port out)

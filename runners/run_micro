@@ -1,0 +1,10 @@
+#! /usr/bin/petite --script
+
+(load "sources/microKanren.scm")
+(load "sources/miniKanren-wrappers.scm")
+(load "all_tests.scm")
+
+(define tests-file "test_lists/micro_list.txt")
+(define output-file "results/res_micro.txt")
+
+(load "runner_template.scm")

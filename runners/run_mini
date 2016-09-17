@@ -1,0 +1,9 @@
+#! /usr/bin/petite --script
+
+(load "sources/mk.scm")
+(load "all_tests.scm")
+
+(define tests-file "test_lists/mini_list.txt")
+(define output-file "results/res_mini.txt")
+
+(load "runner_template.scm")
